@@ -1,0 +1,220 @@
+module.exports={
+    message: {
+      loading:"加載中",
+      
+      head:{
+          index:"上門服務",
+          fanhui:"返回",
+          pre:"我的訂單",
+          detail:"預約詳情",
+          people:"服務人員",
+          process:"一般服務流程",
+          people2:"服務人員資料",
+          cancel:"取消預約",
+          modify:"更改預約",
+          time:"服務時間",
+          ment:"發表評論",
+          about:'預約服務',
+          address:"服務地址",
+          aboutDetail:"預約詳情",
+          complete:"預約完成",
+          record:"預約記錄",
+      },
+      index:{
+        fuwu:"家居服務",
+        wxanz:"維修及安裝",
+        xiyi:"洗衣乾衣",
+        mei:"美容扮靓",
+      },
+      pre:{
+        all:"全部",
+        payment:"待付款",
+        ongoing:"進行中",
+        evaluate:"待評價",
+      },
+      prompt:{
+        title:"提示",
+      },
+      btn:{
+        mine:"確認提交",
+        mine2:"確定",
+        next:"下一步",
+        submit:"確認提交",
+        make:"確定預約",
+        bank:"返回我的服務",
+        detail: "返回預約詳情",
+        immediately: "立即預約",
+        lastnew: "最後一步",
+        lookprice: "查看價格",
+        make2: "確認預約"
+      },
+      about:{
+          selarea: "請選擇",
+          addre:"服務地址",
+          area:"家居面積",
+          situation:"家居情況",
+          usedAddre:"常用地址",
+          newAddre:"新增地址",
+          num:"服務時數",
+          hours:"小時",
+          time:"服務時段",
+          detail:"價錢明細",
+          date:"服務日期",
+          people:"服務人員",
+          additional:"額外收費項目",
+          note:"備註",
+          prompt:"溫馨提示",
+          promptList:[
+            "如需清洗冷氣隔塵網、抽氣扇、抽油煙機，請先自行拆下，以便服務人員清潔。","如有一般清潔流程外的事項需要清潔姨姨處理，請於「備註」提出，否則當日有可能會不被受理。"
+          ],
+          tiaokuan:"條款及細則",
+          content: "點擊確認預約，即表示您本人同意及接受HelloToby",
+          masktel: "服務條款及私隱條例",
+          service: "服務條款",
+          and: " 及 ",
+          privacy: "私隱條例",
+      },
+
+      input:{
+        name:"聯絡人",
+        phone:"手機號碼",
+        addre:"單位住址",
+        email:"電郵地址",
+      },
+      placeholder:{
+        unitaddress: "請提供單位住址",
+        name:"請輸入聯絡人",
+        phone:"請輸入手機號碼",
+        regphone:"請輸入正確的手機號碼",
+        addre:"街名或大廈名稱",
+        regaddre:"請輸入正確的單位住址",
+        email:"請輸入電郵作為日後訂單通知之用",
+        regemail: "請輸入正確的電郵地址",
+        date:"請選擇服務時段",
+        special:"如有特殊需求，請填寫在此。我們會盡量安排。",
+        alert:"請完成信息",
+        ment:"您滿意是次的服務嗎？請用最多100字分享您的用家體驗。",
+        other: "请输入'其他'家具情况",
+      },
+      advice:{
+        title:"一般清潔流程",
+        content:"你現在閱讀的，並不是真的文案。這些文字，只顯示文案將會擺放的位置。我們會稱呼這些文案為「假字」。為何要用「假字」？",
+        text:"點擊了解更多。",
+      },
+      order:{
+        has:"已付款",
+        people:"已指派服務人員",
+        peopleBtn:"查看服務人員",
+        complete:"服務完成",
+        again:"再次預約",
+        imme:"立即評價",
+        increase:"需收取附加费",
+        payment:"立即付款",
+        have:"已評價",
+        cancelled:"已取消",
+        text:"評價後，於下次預約服務時可獲減10元優惠。",
+        modify:"更改預約",
+        cancel:"取消預約",
+        customer:"聯絡客服",
+        complaints:"意見回饋",
+        record:"預約記錄",
+        wtchan:"等待更改",
+        wtcancel:"等待取消"
+      },
+      price:{
+        subtotal:"小計",
+        stay:"待付款"
+      },
+      complete:{
+        title:"感謝您的預約",
+        text:"配對時間一般為24個工作小時，屆時您將會收到電郵確認資料。如有任何疑問，請致電3703 3250。",
+        btn:"返回預約詳情",
+      },
+      ment:{
+        title:{
+          zhong:"總評價",
+          ping:"服務評價",
+        },
+        theme:{
+          speed:"工作效率",
+          clean:"服務效果",
+          attitude:"態度",
+        },
+        score:{
+          noted:"很差",
+          not:"差",
+          general:"一般",
+          satisfied:"滿意",
+          very:"很滿意",
+        },
+        highpraise:{
+          titel:"感謝您的寶貴意見",
+          contents:"多謝您使用我們的服務和分享的評價，我們會為您做得更好！",
+        },
+        badreview:{
+          titel:"多謝您的寶貴意見",
+          contents:"感謝您使用我們的服務，很抱歉在服務過程中未能令您感到滿意，我們會盡快跟進和作出相應的改善。"
+        }
+      },
+      dayList:["星期天","星期一","星期二","星期三","星期四","星期五","星期六","今天","明天"],
+      personnel:{
+        systems:"系統推薦服務人員",
+        onces:"過去曾預約的服務人員",
+        service:"服務",
+        times:"次",
+        callser:"致電服務人員",
+        usercomt:"用戶評論",
+      },
+      presdeta:{
+        needpay:"需支付",
+        has:"已付款",
+        hasreful:"已退款",
+        termspay:"付款方式",
+        timepay:"付款時間",
+        orderpay:"付款單號",
+        status:{
+          quoting:"配對中",
+          hired:"已配對服務人員",
+          done:"服務已完成，待評價",
+          cancelled:"預約已取消",
+          wtchange:"等待更改預約",
+          wtcancel:"等待取消預約",
+          rated:"已評價",
+        },
+        payment:{
+          alipay:"支付寶",
+          stripe:"網上支付",
+          cash:"現金",
+          bank:"銀行卡",
+          other:"其他支付"
+        }
+      },
+      modify:{
+        timearr:"服務時段",
+      },
+      report:{
+          options:"信息內容",
+          teltxt:"我們一直期望為您做得更好，如有任何意見，請隨時與我們分享，我們很樂意聆聽和作出改善。",
+          teltxt2:"您好，您的預約已被取消，如對是次的操作有任何疑問，煩請告知當中的詳情，以讓我們可以進一步為您跟進。",
+          teltxt3:"您好，更改預約一般需要2-3個工作天處理，請耐心等候。如果有需要也可以透過以下方式電郵聯繫我們的客服，謝謝。",  
+          teltxt4:"您好，您的取消申請，我們已在處理中，請耐心等候。如果有其他需要也可以透過以下方式電郵聯繫我們的客服，謝謝。",        
+          placeholder:"請分享您的用家體驗。",
+          placeholder2:"請分享您的查詢內容。",
+          picture:"上傳圖片（最多10張）",
+          btntxt:"確認提交",
+          queries:"查詢內容",
+      },
+      alipays:{
+        payment: "支付方式",
+        alipay: "支付寶",
+        alipayhk: "香港支付寶",
+        idMesg: "訂單ID錯誤"
+      },
+      push: {
+        pustmeg: "我希望日後收取HelloToby發送的推廣電郵和優惠訊息。",
+        discount: "$130/小時起",
+        botms: "節省超過30%",
+      },
+      errorMessage:"支付失敗"
+    }
+  }
