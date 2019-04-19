@@ -3,7 +3,7 @@
         <head-top v-if="!$alipayBool" @backClick="changeBack" v-bind:data="{title:$t('message.head.detail'),start:true}"></head-top>
         <div class="posit" :style="needpay?'border-bottom: 1px solid #fff;':''" :class="{'addTopHeight': !($alipayBool)}">
         <div class="presDeta scoll" :class="(onepres.status=='UNPAID' || needpay)?'payment':''">
-            <scroll-notice></scroll-notice>
+            <scroll-notice v-if="notice" v-bind:data="{text:notice,}" ></scroll-notice>
             <div class="presDeta-img"  @click="record" :style="{backgroundImage:img}">
                 <div class="presDeta-imgbox">
                     <div class="pres-status">{{setStatus}}</div>
@@ -164,6 +164,8 @@
                 packageNumber: "",
                 cmdDate: {},
                 img: "",
+                suppliers:null,
+                notice:null,
             };
         },
         components:{
@@ -363,6 +365,12 @@
                             this.supplier = res.data.supplier;
                             this.num = res.data.supplier.rate;
                         }
+                        if(res.data.notice){
+                            this.notice = res.data.notice;
+                        }
+                        if(res.data.suppliers){
+                            this.suppliers = res.data.suppliers;
+                        }
                         if(res.data.bills){
                             for(let i=0; i<res.data.bills.length; i++){
                                 if(res.data.bills[i].payment){
@@ -416,8 +424,6 @@
                     });
                 }
                 let billArr = this.onepres.bills || [];
-                console.log(this.onepres)
-                console.log(billArr)
                 let id = "";
                 for(let i=0; i<billArr.length; i++){
                     if(this.onepres.bills[i].status === "WAIT_FOR_PAY"){
@@ -515,7 +521,7 @@
             ment(){
                 this.$router.push({
                     name:"ment",
-                    params:{lang:this.$i18n.locale},
+                    params:{lang:this.$i18n.locale,projectId:this.projectId},
                 })
             },
             //预约记录
@@ -556,6 +562,7 @@
                     params: {lang: this.$i18n.locale, projectId: this.projectId, id:i},
                 }) 
             },
+            // 服務記錄
             clickReacord(){
                 this.$router.push({
                     name: "serviceRecord",

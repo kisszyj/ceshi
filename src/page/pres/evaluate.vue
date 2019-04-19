@@ -1,5 +1,6 @@
 <template>
     <div class="evaluate posit" ref="evaluate">
+        <scroll-notice v-if="notice" v-bind:data="{text:notice,}" ></scroll-notice>
         <div class="all-box" >
             <div class="evaluate-list" ref="allList">
                 <div class="all-itme" v-for="item in listorder" @click="presDeta(item.id)">
@@ -60,6 +61,7 @@
 <script>
     import { ajax, dateFormat, getMonday , PackageId, setSession, getSession, clearQuestions } from '@/util/util'
     import Pagination from '../../components/pagination'
+    import scrollNotice from "../../components/scrollNotice"
     export default {
         name: 'evaluate',
         data() {
@@ -67,6 +69,7 @@
                 list:[1,2,3,4,5,6],
                 loading:false,
                 listorder: [],
+                notice:"",
                 page:1,
                 totalPage:0,
                 height:"",
@@ -75,7 +78,8 @@
             };
         },
         components:{
-            Pagination:Pagination
+            Pagination:Pagination,
+            scrollNotice:scrollNotice,
         },
         created(){
             if(!this.$path){
@@ -106,6 +110,7 @@
                     url: "api/projectlist?onlyDirect=true&status=NEEDREVIEW&offset="+ (this._data.page*10) +"&limit=10",
                     type: "get",
                     success: res => {
+                        this._data.notice = res.data.notice;
                         if(res.data.projects){
                             let array = res.data.projects;
                             for(let i=0; i<array.length; i++){
@@ -182,7 +187,7 @@
                 setSession("projectId", id);
                 this.$router.push({
                     name:"ment",
-                    params: {lang: this.$i18n.locale},                    
+                    params: {lang: this.$i18n.locale,projectId:id},                    
                 })
             },
             again(packageId){

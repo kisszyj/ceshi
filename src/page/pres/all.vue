@@ -1,5 +1,6 @@
 <template>
     <div class="all posit" ref="all">
+        <scroll-notice v-if="notice" v-bind:data="{text:notice,}" ></scroll-notice>
         <div class="all-box">
             <div class="all-list" ref="allList">
                 <div class="all-itme" v-for="item in listorder" @click="allBtn(item.id)">
@@ -107,6 +108,8 @@
 <script>
     import { ajax, dateFormat, getMonday, getEndate, setSession, getSession,clearQuestions , payAlipay } from '@/util/util'
     import Pagination from '../../components/pagination'
+    import scrollNotice from "../../components/scrollNotice"
+
     export default {
         name: 'all',
         data() {
@@ -118,9 +121,11 @@
                 loading:false,
                 totalPage:1,
                 startData:true,
+                notice:"",
             };
         },
         components:{
+            scrollNotice: scrollNotice,
             Pagination:Pagination
         },
         created(){
@@ -153,6 +158,7 @@
                     url: "api/projectlist?onlyDirect=true&offset="+ ((this._data.page-1)*10) +"&limit=10",
                     type: "get",
                     success: res => {
+                        this._data.notice = res.data.notice;
                         if(res.data.projects){
                             let array = res.data.projects;
                             for(let i=0; i<array.length; i++){
@@ -273,7 +279,7 @@
                 setSession("projectId", id);
                 this.$router.push({
                     name:"ment",
-                    params: {lang: this.$i18n.locale},                    
+                    params: {lang: this.$i18n.locale,projectId:id},                    
                 })
             },
             // 再次预约

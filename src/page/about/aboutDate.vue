@@ -421,42 +421,49 @@
                 const dateShow = this.dateShow;
                 let start = true;
                 for(let i=0; i<ques.length; i++){
-                    if(ques[i].type === "DATETIME"){
-                        if(!ques[i].dates && this.$isMobile){
-                            start = false;
-                        }
-                        if(!dateShow.date && !this.$isMobile){
-                            start = false;
-                        }
-                    }
-                    if(ques[i].type === "ADDRESS" && !ques[i].address){
-                        start = false;
-                    }
-                    // if(ques[i].type === "TEXT" && !ques[i].value){
-                    //     start = false;
-                    // }
-                    if(ques[i].type === "ENUMERATION" && !ques[i].multiple){//单选，判断是否存在一个为
-                        let bool = true;
-                        for(let j=0; j<ques[i].possibleValues.length; j++){
-                            if(ques[i].possibleValues[j].start){//存在一个为true，则通过
-                                bool = false;
-                                break;
+                    if(ques[i].required){
+                        if(ques[i].type === "DATETIME"){
+                            if(!ques[i].dates && this.$isMobile){
+                                start = false;
+                            }
+                            if(!dateShow.date && !this.$isMobile){
+                                start = false;
                             }
                         }
-                        if(bool){
+                        if(ques[i].type === "ADDRESS" && !ques[i].address){
                             start = false;
                         }
+                        if(ques[i].type === "TEXT" && !ques[i].value){
+                            start = false;
+                        }
+                        if(ques[i].type === "ENUMERATION" && !ques[i].multiple){//单选，判断是否存在一个为
+                            let bool = true;
+                            for(let j=0; j<ques[i].possibleValues.length; j++){
+                                if(ques[i].possibleValues[j].start){//存在一个为true，则通过
+                                    bool = false;
+                                    break;
+                                }
+                            }
+                            if(bool){
+                                start = false;
+                            }
+                        }
                     }
+                    
                 }
                 if(start){
                     this.start = true;
                 }else{
                     this.start = false;
                 }
-
+                return start;
             },
             // 下一步
             next(){
+                const isDesable =  this.isDesable()
+                if(!isDesable){
+                    return;
+                }
                 var ques = this.questions;
                 let start = true;
                 for(let i=0; i<ques.length; i++){
@@ -763,7 +770,9 @@
                 }
             },
             setText(index){
-                setQuestions(this.questions[index], 2)
+                setQuestions(this.questions[index], 2);
+                //重新调用接口
+                this.getData(getQuestionsAll(getQuestions(),2))
             },
             // 一般服务流程弹框
             maskBtn(){

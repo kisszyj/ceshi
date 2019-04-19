@@ -332,7 +332,7 @@
                         var data = res.data.questions[0];                        
                         if(JSON.stringify(this.$why) != "[]"){
                             this._data.whyList = this.$why;
-                        }else{
+                        }else if(whyList.length === 0){
                             var list = data.possibleValues
                             for(var i=0; i<list.length; i++){
                                 data.possibleValues[i].start = false;
@@ -352,6 +352,9 @@
                                 num++;
                             }else{
                                 res.data.questions[j].start = false;
+                            }
+                            if(res.data.questions[j].type === "DATETIME"){
+                                this._data.timeQuestionNumber = res.data.questions[j].questionNumber;
                             }
                         }
                         this.tipList = res.data.questions;

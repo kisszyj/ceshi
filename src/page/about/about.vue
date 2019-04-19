@@ -59,33 +59,33 @@
                         </div>
 
                         <!-- 新增question图片多选 -->
-                        <div class="about-item" v-if="item.type==='ENUMERATION' && item.multiple">
+                        <div class="about-item" v-if="item.type==='IMAGENUMBER'">
                           <div>
                             <div class="about-top" :style="item.subLabel?'padding: 16px 8px 0;':''">
                               <div class="top-left ques-icon">
                                     <img v-if="$isMobile" src="../../img/ecology-and-environment@3x.png" />
                                     <span v-if="!$isMobile">{{index+1}}.</span>
-                                    <span>请选择需要干洗的衣物种类及数量</span>
+                                    <span>{{item.label}}</span>
                               </div>
                               <div class="top-right"></div>
                             </div>
                             <div v-if="item.subLabel" class="date-text">{{item.subLabel}}</div>
                           </div>
-                          <div class="clothing" v-for="ite in arr">
+                          <div class="clothing" v-for="(ite,key) in item.possibleValues">
                             <div class="box-left">
-                              <img src="">
+                              <img :src="ite.imageLabel">
                               <div class="box-sub">
-                                <p>西装</p>
-                                <span>$56/件</span>
+                                <p>{{ite.label}}</p>
+                                <span>$56/{{ite.unit}}</span>
                               </div>
                             </div>
-                            <div class="date-right box-right" v-if="ite.bool">
-                              <div class="date-subtract ation-img"  :class="false?'':'gray'" @click=""></div>
-                              <div class="cloth-num">0</div>
-                              <div class="date-add ation-img" :class="true?'':'gray'" @click=""></div>
+                            <div class="date-right box-right" v-if="ite.maxValue !== 1">
+                              <div class="date-subtract ation-img"  :class="(ite.initValue>ite.minValue)?'':'gray'" @click="subtractImg(index,key)"></div>
+                              <div class="cloth-num">{{ite.initValue}}</div>
+                              <div class="date-add ation-img" :class="(ite.initValue<ite.maxValue)?'':'gray'" @click="addImg(index,key)"></div>
                             </div>
-                            <div class="box-right" v-if="!ite.bool">
-                              <div class="ation-img" :style="ite.start?{backgroundImage:'url('+require('../../img/Group_Red.png')+')'}:{backgroundImage:'url('+require('../../img/Group.png')+')'}" ></div>
+                            <div class="box-right" v-if="ite.maxValue === 1">
+                              <div class="ation-img" @click="radioImg(index,key)" :style="ite.initValue?{backgroundImage:'url('+require('../../img/Group_Red.png')+')'}:{backgroundImage:'url('+require('../../img/Group.png')+')'}" ></div>
                             </div>
                           </div>
                         </div>
@@ -105,7 +105,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="about-item" v-if="item.type==='TEXT'">
                             <div>
                                 <div class="about-top" :style="item.subLabel?'padding: 16px 8px 0;':''">
@@ -184,13 +183,6 @@
                 butnStart: false,
                 tipList:[],
                 tipStart:true,
-                arr: [
-                  {bool: true},
-                  {bool: false, start: false},
-                  {bool: true},
-                  {bool: false, start: true},
-                  {bool: true},
-                ]
             };
         },
         created(){
@@ -218,8 +210,7 @@
                 
             }else{
                 this.getDate({}, true);    
-            }
-            console.log(this.$isMobile)
+            }  
         },
         methods:{
             subtractFun(index){// Tip 的 message 是否显示
@@ -283,7 +274,7 @@
 
                             if(arr[i].type==="ENUMERATION"){//单选状态，start至多一个为true，单选状态必须存session，多选非必存
                                 //判断 session 中是否存已选中状态
-                                if(questionsSe){
+                                if(questionsSe.length){
                                     for(let m=0; m<questionsSe.length; m++){
                                         if(arr[i].type===questionsSe[m].type && arr[i].questionNumber===questionsSe[m].questionNumber){//通过则表示 session 中已存在选中状态
                                             arr[i].possible = questionsSe[m].possible;
@@ -344,8 +335,42 @@
                                 }
                             }
 
+                            // 图片question
+                            if(arr[i].type === "IMAGENUMBER"){
+                                if(questionsSe.length){
+                                   for(let m=0; m<questionsSe.length; m++){
+                                        if(arr[i].type===questionsSe[m].type && arr[i].questionNumber===questionsSe[m].questionNumber){//通过则表示 session 中已存在选中状态
+                                            if(questionsSe[m].possibleValues){
+                                                for(let j=0; j<questionsSe[m].possibleValues.length; j++){
+                                                    arr[i].possibleValues[j].minValue = parseInt(arr[i].possibleValues[j].minValue)
+                                                    arr[i].possibleValues[j].maxValue = parseInt(arr[i].possibleValues[j].maxValue)
+                                                    arr[i].possibleValues[j].initValue = questionsSe[m].possibleValues[j].initValue;
+                                                }
+                                            }
+                                            break;
+                                        }else if((m+1) >= questionsSe.length){
+                                            if(arr[i].possibleValues){
+                                                for(let j=0; j<arr[i].possibleValues.length; j++){
+                                                    arr[i].possibleValues[j].minValue = parseInt(arr[i].possibleValues[j].minValue)
+                                                    arr[i].possibleValues[j].maxValue = parseInt(arr[i].possibleValues[j].maxValue)
+                                                    arr[i].possibleValues[j].initValue = 0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }else{
+                                   if(arr[i].possibleValues){
+                                        for(let j=0; j<arr[i].possibleValues.length; j++){
+                                            arr[i].possibleValues[j].minValue = parseInt(arr[i].possibleValues[j].minValue)
+                                            arr[i].possibleValues[j].maxValue = parseInt(arr[i].possibleValues[j].maxValue)
+                                            arr[i].possibleValues[j].initValue = 0;
+                                        }
+                                    } 
+                                }
+                            }
+
                             if(arr[i].type==="TEXT"){
-                                if(questionsSe){
+                                if(questionsSe.length){
                                     for(let m=0; m<questionsSe.length; m++){
                                         if(arr[i].type===questionsSe[m].type && arr[i].questionNumber===questionsSe[m].questionNumber){
                                             if(questionsSe[m].value){
@@ -413,10 +438,18 @@
                 var ques = this.questions;
                 let change = 0,start=0;
                 for(let i=0; i<ques.length; i++){
-                    if(ques[i].type==='ENUMERATION' && !ques[i].multiple){
+                    if(ques[i].required && ques[i].type !== "NUMBER"){
                         ++change;
-                        for(let j=0; j<ques[i].possibleValues.length; j++){
-                            if(ques[i].possibleValues[j].start){
+                        if(ques[i].type === "ENUMERATION" || ques[i].type === "IMAGENUMBER"){
+                            for(let j=0; j<ques[i].possibleValues.length; j++){
+                                if(ques[i].possibleValues[j].start || ques[i].possibleValues[j].initValue){
+                                    ++start;
+                                    break;
+                                }
+                            }
+                        }
+                        if(ques[i].type === "TEXT"){
+                            if(ques[i].value){
                                 ++start;
                             }
                         }
@@ -424,8 +457,10 @@
                 }
                 if(change === start){
                     this.butnStart = true;
+                }else{
+                    this.butnStart = false;
                 }
-                return;
+                return change === start;
             },
             // 时间减
             subtractTime(index){
@@ -461,6 +496,51 @@
                 }
                 return;
             },
+            // question 图片 减
+            subtractImg(index,key){
+                if(this.questions[index].possibleValues[key].minValue < this.questions[index].possibleValues[key].initValue){//当 initValue 小于 最小时数 是才执行
+                    if(window.gtag){
+                        window.gtag('event', `${this.questions[index].questionNumber.toLowerCase()}-finish`, {
+                            'event_category' : this.$gategory.toLowerCase(),
+                            'event_label' : this.$path.toLowerCase()
+                        });
+                    }
+                    //根据 index 修改对应 question 的 initValue 值
+                    this.questions[index].possibleValues[key].initValue--;
+                    //存入 session
+                    setQuestions(this.questions[index], 1)
+                    this.getDate(getQuestionsAll(getQuestions(),1), false);
+                }
+                return; 
+            },
+            // question 图片 加
+            addImg(index,key){
+                if(this.questions[index].possibleValues[key].maxValue > this.questions[index].possibleValues[key].initValue){//当 initValue 小于 最小时数 是才执行
+                    if(window.gtag){
+                        window.gtag('event', `${this.questions[index].questionNumber.toLowerCase()}-finish`, {
+                            'event_category' : this.$gategory.toLowerCase(),
+                            'event_label' : this.$path.toLowerCase()
+                        });
+                    }
+                    //根据 index 修改对应 question 的 initValue 值
+                    this.questions[index].possibleValues[key].initValue++;
+                    //存入 session
+                    setQuestions(this.questions[index], 1)
+                    this.getDate(getQuestionsAll(getQuestions(),1), false);
+                }
+                return; 
+            },
+            // 单选 图片 
+            radioImg(index,key){
+                if(this.questions[index].possibleValues[key].maxValue > this.questions[index].possibleValues[key].initValue){
+                    this.questions[index].possibleValues[key].initValue++;
+                }else if(this.questions[index].possibleValues[key].minValue < this.questions[index].possibleValues[key].initValue){
+                    this.questions[index].possibleValues[key].initValue--;
+                }
+                setQuestions(this.questions[index], 1)
+                this.getDate(getQuestionsAll(getQuestions(),1), false);
+                return; 
+            },
             clearSesseion(){
                 //存在服务时段，则清除
                 var ques = getQuestions();
@@ -472,10 +552,17 @@
                 setSession("dates", "");
             },
             setText(index){
-                setQuestions(this.questions[index], 1)
+                //将新的选择存入 session 中
+                setQuestions(this.questions[index], 1);
+                //重新调用接口
+                this.getDate(getQuestionsAll(getQuestions(),1), true)
             },
             // 下一步
             next(){
+                const ifData = this.ifData();
+                if(!ifData){
+                    return;
+                }
                 var ques = this.questions;
                 let start = true;
                 for(let i=0; i<ques.length; i++){

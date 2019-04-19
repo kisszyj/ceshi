@@ -169,6 +169,7 @@ export const  getQuestionsAll = (question,num) =>{
 		datas.packageNumber = num
 	}
 	for(let i=0; i<questions.length; i++){
+		// 单选多选
 		if(questions[i].type === "ENUMERATION"){
 			let arry = {
 				questionNumber:questions[i].questionNumber,
@@ -187,6 +188,22 @@ export const  getQuestionsAll = (question,num) =>{
 			}
 			datas.questions.push(arry);
 		}
+		// 图片
+		if(questions[i].type === "IMAGENUMBER"){
+			let arry = {
+				questionNumber:questions[i].questionNumber,
+				shortLabel:questions[i].shortLabel,
+				type:questions[i].type,
+				answers:[],
+			}
+			for(let j=0; j<questions[i].possibleValues.length; j++){
+				if(questions[i].possibleValues[j].initValue){		
+					arry.answers.push({value:questions[i].possibleValues[j].value,label:questions[i].possibleValues[j].label,initValue:questions[i].possibleValues[j].initValue});	
+				}
+			}
+			datas.questions.push(arry);
+		}
+		// 时数
 		if(questions[i].type === "NUMBER"){
 			let arry = {
 				questionNumber:questions[i].questionNumber,
@@ -198,8 +215,8 @@ export const  getQuestionsAll = (question,num) =>{
 			}
 			datas.questions.push(arry);	
 		}
+		// 时间
 		if(questions[i].type === "DATETIME"){
-			console.log(questions[i])
 			let arry = {
 				questionNumber:questions[i].questionNumber,
 				shortLabel:questions[i].shortLabel,
@@ -210,6 +227,7 @@ export const  getQuestionsAll = (question,num) =>{
 			}
 			datas.questions.push(arry);	
 		}
+		// 地址
 		if(questions[i].type === "ADDRESS"){
 			let arry = {
 				questionNumber:questions[i].questionNumber,
@@ -222,6 +240,7 @@ export const  getQuestionsAll = (question,num) =>{
 			}
 			datas.questions.push(arry);
 		}
+		// 文本
 		if(questions[i].type === "TEXT"){
 			let arry = {
 				questionNumber:questions[i].questionNumber,
@@ -445,6 +464,6 @@ export const  payAlipay = (data) => {
 		Ajax(params)
 	}else{
 		let href = api+'api/alipayhk/bill/'+ billId +'/pay'
-    // window.location.href =href;
+    window.location.href =href;
 	}
 }

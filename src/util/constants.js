@@ -20,7 +20,7 @@ export default {install(Vue,options){
 			note:{},
 		},
 		$isMobile:false,
-		$why:[],
+		$whyQuestionNumber:"",
 		$whyText:"",
 		$date:{},
 		$statusicon:{
@@ -63,6 +63,9 @@ export default {install(Vue,options){
 		},
 		setWhy:(val)=>{
 			Vue.prototype.$why = val;						
+		},
+		setWhyQuestionNumber:(val)=>{
+			Vue.prototype.$whyQuestionNumber = val;						
 		},
 		setWhyText:(val)=>{
 			Vue.prototype.$whyText = val;			

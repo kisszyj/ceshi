@@ -106,7 +106,6 @@
             this.gaGoogle(path);
             var param = getQuestions();
             var datas = getQuestionsItem(param,2);
-            console.log(datas)
             this.getData(datas);
         },
         methods:{

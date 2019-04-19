@@ -1,12 +1,12 @@
 <template>
   <div class="notice">
-    <div class="rows" v-if="bool">
+    <div class="rows">
       <ul class="marquee-list" ref="rows">
         <li>
           <div ref="rowsWidth" class="rows-animate">
             <div class="rows-item">
               <i class="rows-icon" :style="{backgroundImage:'url('+require('../img/icon-info.png')+')'}"></i>
-              <span>{{text}}</span>
+              <span>{{data.text}}</span>
             </div>
           </div>
         </li>
@@ -18,12 +18,9 @@
 <script>
 export default {
   name: 'crollNotice',
+  props:["data"],
   data() {
     return {
-      bool: true,
-      timer: "",
-      rowNum: 0,
-      text: "莱克斯顿六块腹肌拉几十块的积分卡九十点还阿斯蒂芬看哈可接受的浩丰科技哈开始兑换付款卡红烧豆腐哈卡惊世毒妃"
     }
   },
   created() {
@@ -37,7 +34,6 @@ export default {
   methods: {
     startAnimat() {
       let dom = this.$refs.rowsWidth
-      console.log(dom)
     },
     timerInit() {
       if(this.timer) {

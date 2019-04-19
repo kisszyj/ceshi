@@ -86,7 +86,8 @@
                 date:{},
                 time:{},
                 timeArr: [],
-                pageNumber: ""
+                pageNumber: "",
+                questionNumber:"",
             };
         },
         created(){
@@ -104,7 +105,7 @@
             }
         },
         mounted(){
-            const { path } = this.$route;
+            const { path , params:{ questionNumber } } = this.$route;
             this.gaGoogle(path);
             let dates = getSession("modifyDate");
             let data = {
@@ -114,7 +115,7 @@
                     questionNumber:dates.questionNumber,
                 }], 
             }
-            
+            this._data.questionNumber = questionNumber;
             this.getData(data);
         },
         methods:{
@@ -229,6 +230,7 @@
                     time:data.time.startTime,
                     endTime:data.time.endTime,
                     start:true,
+                    questionNumber:data.questionNumber,
                 }
                 this.setDate(datas);
                 this.$router.back(-1);                

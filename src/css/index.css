@@ -306,10 +306,10 @@ body{font-family: 'Noto Sans', 'Noto Sans TC',BlinkMacSystemFont,-apple-system, 
 .about .clothing .box-left .box-sub{padding-left: 8px;}
 .about .clothing .box-left .box-sub span{font-size: 12px;color: #b3b3b3;}
 .about .clothing .box-right{flex-shrink: 0;}
-.about .clothing .cloth-num{font-size: 14px;line-height: 16px;color: #FF5C6C;margin: 0 8px;}
+.about .clothing .cloth-num{font-size: 14px;line-height: 16px;color: #FF5C6C;margin: 0 8px;min-width: 20px;text-align: center;}
 .about .ation-img{width: 40px;height:40px;background-size: 100% 100%;background-repeat: no-repeat;}
 
-/* tip */
+
 .tipbox{padding: 24px 8px 0;}
 .tipbox .tipitem{display: flex;flex-direction: column;margin-bottom: 24px;}
 .tipbox >div:last-child{margin-bottom: 0;}
@@ -526,3 +526,9 @@ textarea::-webkit-input-placeholder{color: #CDCDCD;}
 .serviceRecord .service-button{border-top:1px solid #f0f0f0;font-size:14px;height: 32px;line-height: 32px;text-align: center;color:#FF5C6C;}
 
 
+/* select */
+.mobileSelect{position: absolute;left:0;right:0;bottom:0;height:248px;background:#fff;overflow-y:scroll;}
+.mobileSelect .mobileSelect-title{height:40px;line-height: 40px;border-bottom:1px solid #cdcdcd;text-align: center;font-size: 12px;color:#222;position: sticky;top:0;background:#fff;}
+.mobileSelect .mobileSelect-item{padding:8px 16px;border-bottom:1px solid #cdcdcd;}
+.mobileSelect .mobileSelect-date{font-size: 14px;line-height: 16px;color:#222;}
+.mobileSelect .mobileSelect-text{font-size: 10px;line-height: 16px;color: #8D9299;margin-top:4px;}

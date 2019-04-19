@@ -1,5 +1,6 @@
 <template>
     <div class="payment posit" ref="payment">
+        <scroll-notice v-if="notice" v-bind:data="{text:notice,}" ></scroll-notice>
         <div class="all-box">
             <div class="payment-list" ref="allList">
                 <div class="all-itme" v-for="item in listorder" @click="presDeta(item.id)">
@@ -51,6 +52,7 @@
 <script>
     import { ajax, dateFormat, getMonday , PackageId, getSession, setSession , payAlipay } from '@/util/util'
     import Pagination from '../../components/pagination'
+    import scrollNotice from "../../components/scrollNotice"
     export default {
         name: 'payment',
         data() {
@@ -62,10 +64,12 @@
                 allHeight:"",
                 loading:false,
                 startData:true,
+                notice:"",
             };
         },
         components:{
-            Pagination:Pagination
+            Pagination:Pagination,
+            scrollNotice: scrollNotice    
         },
         created(){
             if(!this.$path){
@@ -96,6 +100,7 @@
                     url: "api/projectlist?onlyDirect=true&status=UNPAID&offset="+ ((this._data.page-1)*10) +"&limit=10",
                     type: "get",
                     success: res => {
+                        this._data.notice = res.data.notice;
                         if(res.data.totalCount){
                             let array = res.data.projects;
                             for(let i=0; i<array.length; i++){

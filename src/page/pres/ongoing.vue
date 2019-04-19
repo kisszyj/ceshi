@@ -1,5 +1,6 @@
 <template>
     <div class="ongoing posit" ref="ongoing">
+        <scroll-notice v-if="notice" v-bind:data="{text:notice,}" ></scroll-notice>
         <div class="all-box" >
             <div class="ongoing-list" ref="allList">
                 <div class="all-itme" v-for="item in listorder" @click="presDeta(item.id)">
@@ -58,6 +59,7 @@
 <script>
     import { ajax, dateFormat, getMonday ,PackageId, setSession, getSession } from '@/util/util'
     import Pagination from '../../components/pagination'
+    import scrollNotice from "../../components/scrollNotice"
     export default {
         name: 'ongoing',
         data() {
@@ -69,10 +71,12 @@
                 height:"",
                 allHeight:"",
                 startData:true,
+                notice:"",
             };
         },
         components:{
-          Pagination:Pagination
+            Pagination:Pagination,
+            scrollNotice: scrollNotice
         },
         created(){
             if(!this.$path){
@@ -103,6 +107,7 @@
                     url: "api/projectlist?onlyDirect=true&status=INPROCESS&offset=" + ((this.page-1)*10) + "&limit=10",
                     type: "get",
                     success: res => {
+                        this._data.notice = res.data.notice;
                         if(res.data.projects){
                             let array = res.data.projects;
                             for(let i=0; i<array.length; i++){

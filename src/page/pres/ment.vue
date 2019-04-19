@@ -10,16 +10,12 @@
                         <i />
                         <span>評價服務</span>
                     </div>
-                    <div class="select-right">
+                    <div class="select-right" @click="modalClick">
                         <span class="select-text">{{select?select:'请选择服务'}}</span>
-                        <select class="select-list" name="select-choice" v-model="select">
-                            <option class="option-list" :value="coupon" v-for="coupon in selectList">
-                                <div class="option-title">{{coupon}}</div>
-                                <div class="option-text">{{coupon}}</div>
-                            </option>
-                        </select>
+                        <mobile-select :schedules="selectList" @changeSelect="changeSelect"  />
                     </div>
                 </div>
+
                 <div class="ment-star">
                     <div class="ment-item ment-total">
                         <div class="ment-left">
@@ -85,12 +81,14 @@
 <script>
     import headTop from "../../components/headTop";
     import bookingHeadWeb from "../../components/bookingHeadWeb";
+    import mobileSelect from "../../components/mobileSelect";
     import { ajax, dateFormat, getMonday , PackageId, getSession} from '@/util/util'
     export default {
         name: 'process',
         components:{
             headTop:headTop,
             bookingHeadWeb:bookingHeadWeb,
+            mobileSelect:mobileSelect,
         },
         data() {
             return {
@@ -120,9 +118,10 @@
                 projectId: "",
                 paramsindex: [],
                 className:'zh-hk',
-                selectList:["Volvo","Volvo1","Volvo2","Volvo3","Volvo4"],
+                selectList:[],
                 select:"",
-                butnStart: false,
+                modalbool:false,
+                scheduleId:"",
             };
         },
         watch: {
@@ -143,14 +142,18 @@
             }
         },
         mounted(){
-            const { path } = this.$route;
+            const { path , params:{projectId} } = this.$route;
             this.gaGoogle(path);
             if(this.$projectId){
                 this.projectId = this.$projectId;
             }else if(getSession("projectId")){
                 this.projectId = getSession("projectId");
             }
+            if(projectId){
+               this.projectId =  projectId;
+            }
             this.init();
+            this.getSchedules();
             this._data.className = this.$i18n.locale;
         },
         methods:{
@@ -160,6 +163,23 @@
                     type: "get",
                     success: res => {
                         this.suppliers = res.data.supplier;
+                    }
+                }
+                ajax(params);
+            },
+            modalClick(){
+		        this.$root.eventHub.$emit('showSelect')
+            },
+            changeSelect(schedule){
+                this.scheduleId = schedule.id;
+                this.select = schedule.startDate;
+            },
+            getSchedules(){
+                const params = {
+                    url:`/api/project/${this.projectId}/schedules?unreview=true`,
+                    type:"get",
+                    success:res=>{
+                        this.selectList = res.data;
                     }
                 }
                 ajax(params);
@@ -188,7 +208,6 @@
                 var mentList = this._data.mentList;
                 mentList[index].num = num;
                 mentList[index].text = this.text(num);
-
             },
             text(num){
                 var text = "";
@@ -219,6 +238,12 @@
                         data['subRateName'+(i+1)] = this.mentList[i].title;
                     }
                 }
+
+                if(!this.scheduleId){
+                   this.$root.eventHub.$emit('showprompt',{content:this.$t("message.placeholder.alert")});
+                   return;
+                }
+                data.timeScheduleId = this.scheduleId;
                 if(this.total.num===0  || this.menttxt=="" || a>0){
                     this.$root.eventHub.$emit('showprompt',{content:this.$t("message.placeholder.alert")});                    
                 }else{
